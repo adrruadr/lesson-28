@@ -36,6 +36,10 @@ get '/something' do
   erb "Hello World"
 end
 
+get '/lair' do
+  erb :lair
+end
+
 get '/new' do
 	erb :new
 end
@@ -50,6 +54,7 @@ post '/new' do
 
 	db = init_db
 	db.execute	'insert into posts (content,created_date) values (?, datetime())', [@post_text]
-	 
+	
+	redirect to '/' 
 	erb "You typed #{@post_text}"
 end
