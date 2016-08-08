@@ -1,1 +1,47 @@
-<h1>Hello!</h1>
+<h1>Hello <%= $lair_user%>!</h1>
+
+			<div>
+			      <%if $error1 && $error1.length > 0 then %>
+			          <div class="alert alert-danger"><%=$error1%></div>
+			      <% end %>
+			   
+			</div>
+
+
+
+	<form action = '/lair' method = 'POST' role = 'form'>
+	
+	<input class="form-control"  name = "lair_user" placeholder="What is your name?" style="width: 500px"></input>
+	<br />
+	<button type="submit" class="btn btn-primary" style="width: 100px" >Yarrr!</button>
+
+	</form>
+
+<br />
+
+
+<h2>This honored people found my lair</h2>
+
+
+<table class="table table-striped">
+
+
+<body>
+  	<tr>
+ 		<th>Rank</th>
+ 		<th>Name</th>
+ 	</tr>
+
+
+<% @lairusers.each do |lair_user| %>
+
+
+ 	<tr>
+ 		<td><%= lair_user['id'] %></td>
+ 		<td><%= lair_user['lair_user'] %></td>
+
+ 	</tr>
+<% end %>
+</body>
+
+</table>

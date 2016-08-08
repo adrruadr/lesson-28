@@ -4,6 +4,8 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+	$lair_user = 'stranger'	
+
 def init_db 
 	db = SQLite3::Database.new 'lair.db'
 	db.results_as_hash = true
@@ -32,6 +34,12 @@ configure do
 	  	"content" TEXT,
 	  	post_id INTEGER
 	  	)'
+
+	db.execute 'CREATE  TABLE IF NOT EXISTS "lairusers" 
+	(
+	"id" INTEGER PRIMARY KEY  AUTOINCREMENT,
+  	"lair_user" TEXT
+  	)'
 end
 
 get '/' do
@@ -45,6 +53,10 @@ get '/something' do
 end
 
 get '/lair' do
+
+	db = init_db
+	@lairusers = db.execute 'select * from lairusers order by id'
+	
   erb :lair
 end
 
@@ -96,4 +108,22 @@ post '/details/:post_id' do
 	erb "You typed comment #{comment_text} for post #{post_id}"
 
 	end
+end
+
+post '/lair' do
+  $lair_user = params[:lair_user]
+
+if $lair_user.strip.empty?
+	$lair_user = 'rude stranger'
+	$error1 = "Your should introduce #{$lair_user}" 
+		redirect to('/lair')
+	else
+	$error1 = ''
+	db = init_db
+	 db.execute	'insert into lairusers (lair_user) values (?)', [$lair_user]
+	 redirect to('/lair')
+	end
+
+
+
 end
