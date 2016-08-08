@@ -21,6 +21,13 @@
 
 	<% end %>
 
+			
+			<div>
+			      <%if $error1 && $error1.length > 0 then %>
+			          <div class="alert alert-danger"><%=$error1%></div>
+			      <% end %>
+			   
+			</div>
 
 <p> 
 	<form action = '/details/<%= @row['id'] %>' method = 'POST' role = 'form'>

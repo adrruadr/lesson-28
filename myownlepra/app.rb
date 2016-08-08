@@ -69,11 +69,10 @@ end
 
 get '/details/:post_id' do
 	post_id = params[:post_id]
-
+	
 	db = init_db
 	results = db.execute 'select * from posts where id = ?',[post_id]
 	@row = results[0]
-
 
 	@comments = db.execute 'select * from comments where post_id = ? order by id',[post_id]
 
@@ -84,11 +83,17 @@ post '/details/:post_id' do
 	post_id = params[:post_id]
 	comment_text = params[:comment_text]
 
+	if comment_text.strip.empty?
+		$error1 = 'Silence is not the option!'
+		redirect to ('/details/' + post_id)
 	
-
+	else
+		$error1 = ''
 	 db = init_db
 	 db.execute	'insert into comments (content,created_date, post_id) values (?, datetime(),?)', [comment_text,post_id]
 	
 	 redirect to ('/details/' + post_id)
 	erb "You typed comment #{comment_text} for post #{post_id}"
+
+	end
 end
