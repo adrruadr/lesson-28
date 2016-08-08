@@ -28,7 +28,7 @@ end
 
 get '/' do
 	db = init_db
-	@results = db.execute 'select * from posts order by changed_date desc'
+	@results = db.execute 'select * from posts order by created_date desc'
 	erb :index
 end
 
